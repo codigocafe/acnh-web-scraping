@@ -8,7 +8,7 @@ Esse WS foi desenvolvido para fins de estudo e não é recomendo para coleta de 
 
 - [ ] Critterpedia
   - [x] Fishes
-  - [ ] Insects
+  - [x] Insects
   - [ ] Sea Creatures
 - [ ] Nook Miles+
 - [ ] DIY Recipes+
