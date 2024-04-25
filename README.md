@@ -6,10 +6,10 @@ Esse WS foi desenvolvido para fins de estudo e não é recomendo para coleta de 
 
 ### Etapas
 
-- [ ] Critterpedia
+- [x] Critterpedia
   - [x] Fishes
   - [x] Insects
-  - [ ] Sea Creatures
+  - [x] Sea Creatures
 - [ ] Nook Miles+
 - [ ] DIY Recipes+
 - [ ] Nook Shopping
