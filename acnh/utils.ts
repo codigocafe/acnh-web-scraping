@@ -1,3 +1,8 @@
+// TODO aplicar TypeScript
+// TODO criar teste em Jest
+// TODO aplicar algum design partterns
+// TODO converter CommonJS para ECMAScript
+
 const print_log_message = (text, time) => {
     const characters_total_in_line = 70;
     const characters_total_to_remove = text.length - time.toFixed(2).toString().length;

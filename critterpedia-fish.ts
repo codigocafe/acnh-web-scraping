@@ -1,6 +1,11 @@
+// TODO aplicar TypeScript
+// TODO criar teste em Jest
+// TODO aplicar algum design partterns
+// TODO converter CommonJS para ECMAScript
+
 const HTMLParse = require('node-html-parser');
 const acnh = require('./acnh/files');
-const acnh_util = require('./acnh/util');
+const acnh_util = require('./acnh/utils');
 const {save_image, _to_slug} = require("./acnh/files");
 
 console.log("Captura de informações - Critterpedia Fish.")
