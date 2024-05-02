@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "type": "module",
   "scripts": {
-    "test": "jest --passWithNoTests"
+    "test": "jest --passWithNoTests --watchAll"
   },
   "dependencies": {
     "node-html-parser": "^6.1.13",
