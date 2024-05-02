@@ -1,35 +1,19 @@
-// TODO criar teste em Jest
-// TODO aplicar algum design partterns
+import {iFish} from "../interfaces/fish";
+import { mkdir, writeFile } from 'node:fs/promises';
+import { Buffer } from 'node:buffer';
 
-const fs = require('node:fs');
-const fsp = require('node:fs/promises');
-const { Buffer } = require('node:buffer');
-
-
-
-
-
-const _make_directory = ( path_name ) => {
-    return fs.mkdir(path_name, { recursive: true}, (err, path) => {
-        if(err)
-            console.log(err);
-    })
+export const _make_directory = async ( path_name:string ) => {
+    const created_dir:string = await mkdir(path_name, { recursive: true} );
+    return created_dir;
 }
 
-const save_json = (path_file, name_file, data) => {
-    _make_directory(path_file);
-    fs.writeFile(`${path_file}/${name_file}`, JSON.stringify(data, null, 4), 'utf-8', (err) => {
-        if(err)
-            return false;
-    });
-    return true
+export const save_json = async (path_file:string, name_file:string, data:iFish[]) => {
+    const directory:string = await _make_directory(path_file);
+    const written:boolean = (await writeFile(`${directory}/${name_file}`, JSON.stringify(data, null, 4), {encoding: 'utf-8'}) === undefined) ? true : false;
+    return written;
 }
 
-const save_image = (path, name, buffer) => {
-    name = _to_slug(name);
-    _make_directory(path)
-    const file = fs.writeFile(`${path}/${name}.png`, Buffer.from(buffer), (err) => {});
-    return `${path}/${name}.png`;
+export const save_image = async (path:string, name:string, buffer:ArrayBuffer) => {
+    const written:boolean = (await writeFile(`${path}/${name}`, Buffer.from(buffer)) === undefined) ? true : false;
+    return written;
 }
-
-module.exports = { save_json, save_image };
