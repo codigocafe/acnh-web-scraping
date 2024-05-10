@@ -4,6 +4,7 @@
   "type": "commonjs",
   "scripts": {
     "fish": "tsc critterpedia-fish.ts && node critterpedia-fish.js",
+    "bug": "tsc critterpedia-insects.ts && node critterpedia-insects.js",
     "test": "jest --passWithNoTests --watchAll --coverage"
   },
   "dependencies": {
