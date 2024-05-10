@@ -1,0 +1,4 @@
+{
+    "textEnvironment": "node",
+    "textMatch": ["**/?(*.)+(spec|test).ts"]
+}

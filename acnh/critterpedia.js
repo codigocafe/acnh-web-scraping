@@ -36,57 +36,34 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.save_image = exports.save_json = exports._make_directory = void 0;
-var promises_1 = require("node:fs/promises");
-var node_buffer_1 = require("node:buffer");
-var _make_directory = function (path_name) { return __awaiter(void 0, void 0, void 0, function () {
-    var created_dir, err_1;
+exports.get_months = exports.catch_html = void 0;
+var node_html_parser_1 = require("node-html-parser");
+var catch_html = function (page_url) { return __awaiter(void 0, void 0, void 0, function () {
+    var response_html, html, document_parsed;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 2, , 3]);
-                return [4 /*yield*/, (0, promises_1.mkdir)(path_name, { recursive: true })];
+            case 0: return [4 /*yield*/, fetch(page_url, { method: 'GET' })];
             case 1:
-                created_dir = _a.sent();
-                return [2 /*return*/, true];
+                response_html = _a.sent();
+                return [4 /*yield*/, response_html.text()];
             case 2:
-                err_1 = _a.sent();
-                console.log(err_1);
-                return [2 /*return*/, false];
-            case 3: return [2 /*return*/];
+                html = _a.sent();
+                document_parsed = (0, node_html_parser_1.default)(html);
+                return [2 /*return*/, document_parsed];
         }
     });
 }); };
-exports._make_directory = _make_directory;
-var save_json = function (path_file, name_file, data) { return __awaiter(void 0, void 0, void 0, function () {
-    var directory;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, exports._make_directory)(path_file)];
-            case 1:
-                directory = _a.sent();
-                if (!directory) return [3 /*break*/, 3];
-                return [4 /*yield*/, (0, promises_1.writeFile)("".concat(path_file, "/").concat(name_file), JSON.stringify(data, null, 4), { encoding: 'utf-8' })];
-            case 2:
-                _a.sent();
-                return [2 /*return*/, true];
-            case 3: return [2 /*return*/, false];
-        }
+exports.catch_html = catch_html;
+var get_months = function (list, condition_truthy) {
+    var response = [[]];
+    list.forEach(function (item, index) {
+        var actived_months_by_fish = [];
+        item.querySelectorAll('span').forEach(function (month) {
+            var actived_month = (month.getAttribute('style').indexOf(condition_truthy) > -1);
+            actived_months_by_fish.push(actived_month);
+        });
+        response[index] = actived_months_by_fish;
     });
-}); };
-exports.save_json = save_json;
-var save_image = function (path, name, buffer) { return __awaiter(void 0, void 0, void 0, function () {
-    var directory, written;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, (0, exports._make_directory)(path)];
-            case 1:
-                directory = _a.sent();
-                return [4 /*yield*/, (0, promises_1.writeFile)("".concat(path, "/").concat(name), node_buffer_1.Buffer.from(buffer))];
-            case 2:
-                written = ((_a.sent()) === undefined) ? true : false;
-                return [2 /*return*/, written];
-        }
-    });
-}); };
-exports.save_image = save_image;
+    return response;
+};
+exports.get_months = get_months;
