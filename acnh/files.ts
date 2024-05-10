@@ -12,7 +12,7 @@ export const _make_directory = async ( path_name:string ):Promise<boolean> => {
     }
 }
 
-export const save_json = async (path_file:string, name_file:string, data:iFish[]) => {
+export const save_json = async (path_file:string, name_file:string, data:any[]) => {
     const directory:boolean = await _make_directory(path_file);
     if(directory){
         await writeFile(`${path_file}/${name_file}`, JSON.stringify(data, null, 4), {encoding: 'utf-8'});

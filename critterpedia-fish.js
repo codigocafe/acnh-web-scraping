@@ -106,7 +106,7 @@ var init = function () { return __awaiter(void 0, void 0, void 0, function () {
                 console.log((0, utils_1.print_log_message)('Run 4: Salvar arquivo JSON.', (benchmark_end - benchmark_start)));
                 benchmark_start = performance.now();
                 fish.map(function (fish) { return __awaiter(void 0, void 0, void 0, function () {
-                    var response_image, buffer_image, file_name, image_saved;
+                    var response_image, buffer_image, file_name;
                     return __generator(this, function (_a) {
                         switch (_a.label) {
                             case 0: return [4 /*yield*/, fetch(fish.icon.remote, { method: 'GET' })];
@@ -116,7 +116,9 @@ var init = function () { return __awaiter(void 0, void 0, void 0, function () {
                             case 2:
                                 buffer_image = _a.sent();
                                 file_name = "".concat((0, utils_1.to_slug)(fish.name), ".").concat((0, utils_1.get_extension)(fish.icon.remote));
-                                image_saved = (0, files_1.save_image)('./files/fish', file_name, buffer_image);
+                                return [4 /*yield*/, (0, files_1.save_image)('./files/fish', file_name, buffer_image)];
+                            case 3:
+                                _a.sent();
                                 return [2 /*return*/];
                         }
                     });

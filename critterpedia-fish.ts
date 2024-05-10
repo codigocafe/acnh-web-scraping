@@ -23,8 +23,8 @@ const init = async () => {
     const shadow_sizes:string[] = domget(content_wrapper).text('tr > td:nth-child(5)');
     const locations:string[] = domget(content_wrapper).text('tr > td:nth-child(6)');
     const times:string[] = domget(content_wrapper).text('tr > td:nth-child(7)');
-    const wrapper_north_months = domget(content_wrapper).node('tr > td:nth-child(8) > span');
-    const wrapper_south_months = domget(content_wrapper).node('tr > td:nth-child(8) > p > span');
+    const wrapper_north_months:NodeListOf<Element> = domget(content_wrapper).node('tr > td:nth-child(8) > span');
+    const wrapper_south_months:NodeListOf<Element> = domget(content_wrapper).node('tr > td:nth-child(8) > p > span');
     const north_months:[boolean[]] = get_months(wrapper_north_months, '#50b3d4');
     const south_months:[boolean[]] = get_months(wrapper_south_months, '#50b3d4');
     benchmark_end = performance.now()
@@ -33,7 +33,7 @@ const init = async () => {
 
     benchmark_start = performance.now();
     const fish:iFish[] = names.map((value:string, index:number):iFish => {
-        const all_day = (times[index] === 'All day');
+        const all_day:boolean = (times[index] === 'All day');
         const local_file_name:string = `${to_slug(names[index])}.${get_extension(icons[index])}`;
         return {
             name: names[index],
@@ -74,7 +74,7 @@ const init = async () => {
         const response_image = await fetch(fish.icon.remote, {method: 'GET'});
         const buffer_image = await response_image.arrayBuffer();
         const file_name = `${to_slug(fish.name)}.${get_extension(fish.icon.remote)}`;
-        const image_saved = save_image('./files/fish', file_name, buffer_image );
+        await save_image('./files/fish', file_name, buffer_image );
     });
     benchmark_end = performance.now();
     console.log(print_log_message('Run 4: Salvar arquivos de Imagem.', (benchmark_end - benchmark_start)))
