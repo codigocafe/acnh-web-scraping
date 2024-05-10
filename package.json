@@ -5,6 +5,7 @@
   "scripts": {
     "fish": "tsc critterpedia-fish.ts && node critterpedia-fish.js",
     "bug": "tsc critterpedia-insects.ts && node critterpedia-insects.js",
+    "sea": "tsc critterpedia-sea-creatures.ts && node critterpedia-sea-creatures.js",
     "test": "jest --passWithNoTests --watchAll --coverage"
   },
   "dependencies": {
