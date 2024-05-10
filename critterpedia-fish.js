@@ -38,49 +38,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var utils_1 = require("./acnh/utils");
 var dom_1 = require("./acnh/dom");
-var node_html_parser_1 = require("node-html-parser");
 var files_1 = require("./acnh/files");
+var critterpedia_1 = require("./acnh/critterpedia");
 var benchmark_start = 0;
 var benchmark_end = 0;
-var catch_html = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var page_url, response_html, html, document_parsed;
+var init = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var page_url, document_parsed, content_wrapper, names, icons, prices, shadow_sizes, locations, times, wrapper_north_months, wrapper_south_months, north_months, south_months, fish, file_saved;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 benchmark_start = performance.now();
                 page_url = 'https://nookipedia.com/wiki/Fish/New_Horizons';
-                return [4 /*yield*/, fetch(page_url, { method: 'GET' })];
-            case 1:
-                response_html = _a.sent();
-                return [4 /*yield*/, response_html.text()];
-            case 2:
-                html = _a.sent();
-                document_parsed = (0, node_html_parser_1.default)(html);
-                benchmark_end = performance.now();
-                console.log((0, utils_1.print_log_message)("Run 1: Capturando do HTML.", (benchmark_end - benchmark_start)));
-                return [2 /*return*/, document_parsed];
-        }
-    });
-}); };
-var get_months = function (list, condition_truthy) {
-    var response = [[]];
-    list.forEach(function (item, index) {
-        var actived_months_by_fish = [];
-        item.querySelectorAll('span').forEach(function (month) {
-            var actived_month = (month.getAttribute('style').indexOf(condition_truthy) > -1) ? true : false;
-            actived_months_by_fish.push(actived_month);
-        });
-        response[index] = actived_months_by_fish;
-    });
-    return response;
-};
-var init = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var document_parsed, content_wrapper, names, icons, prices, shadow_sizes, locations, times, wrapper_north_months, wrapper_south_months, north_months, south_months, fish, file_saved;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, catch_html()];
+                return [4 /*yield*/, (0, critterpedia_1.catch_html)(page_url)];
             case 1:
                 document_parsed = _a.sent();
+                benchmark_end = performance.now();
+                console.log((0, utils_1.print_log_message)("Run 1: Capturando do HTML.", (benchmark_end - benchmark_start)));
                 benchmark_start = performance.now();
                 content_wrapper = document_parsed.querySelector('#mw-content-text .tabletop table tbody');
                 names = (0, dom_1.domget)(content_wrapper).text('tr > td:nth-child(2)');
@@ -91,13 +64,13 @@ var init = function () { return __awaiter(void 0, void 0, void 0, function () {
                 times = (0, dom_1.domget)(content_wrapper).text('tr > td:nth-child(7)');
                 wrapper_north_months = (0, dom_1.domget)(content_wrapper).node('tr > td:nth-child(8) > span');
                 wrapper_south_months = (0, dom_1.domget)(content_wrapper).node('tr > td:nth-child(8) > p > span');
-                north_months = get_months(wrapper_north_months, '#50b3d4');
-                south_months = get_months(wrapper_south_months, '#50b3d4');
+                north_months = (0, critterpedia_1.get_months)(wrapper_north_months, '#50b3d4');
+                south_months = (0, critterpedia_1.get_months)(wrapper_south_months, '#50b3d4');
                 benchmark_end = performance.now();
                 console.log((0, utils_1.print_log_message)("Run 2: Identificação das informações.", (benchmark_end - benchmark_start)));
                 benchmark_start = performance.now();
                 fish = names.map(function (value, index) {
-                    var all_day = (times[index] === 'All day') ? true : false;
+                    var all_day = (times[index] === 'All day');
                     var local_file_name = "".concat((0, utils_1.to_slug)(names[index]), ".").concat((0, utils_1.get_extension)(icons[index]));
                     return {
                         name: names[index],

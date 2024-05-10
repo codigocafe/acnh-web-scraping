@@ -1,40 +1,19 @@
 import {get_extension, print_log_message, to_slug} from "./acnh/utils";
 import { domget } from "./acnh/dom";
-import parse from "node-html-parser";
 import {iFish} from "./interfaces/fish";
 import {save_image, save_json} from "./acnh/files";
+import { catch_html, get_months } from "./acnh/critterpedia";
 
 let benchmark_start:number = 0;
 let benchmark_end:number = 0;
 
-const catch_html = async () => {
-    benchmark_start = performance.now();
-    const page_url:string = 'https://nookipedia.com/wiki/Fish/New_Horizons';
-    const response_html:Response = await fetch(page_url, {method: 'GET'});
-    const html:string = await response_html.text();
-    const document_parsed:HTMLElement | any = parse(html);
-    benchmark_end = performance.now();
-    console.log(print_log_message("Run 1: Capturando do HTML.", (benchmark_end - benchmark_start)));
-    return document_parsed;
-}
-
-const get_months = ( list:NodeListOf<Element>, condition_truthy:string ):[boolean[]] => {
-    const response:[boolean[]] = [[]];
-    list.forEach((item:Element, index:number) => {
-        const actived_months_by_fish:boolean[] = [];
-        item.querySelectorAll('span').forEach((month:HTMLElement):void => {
-            const actived_month:boolean = ( month.getAttribute('style').indexOf(condition_truthy) > -1 ) ? true : false ;
-            actived_months_by_fish.push(actived_month);
-        });
-        response[index] = actived_months_by_fish;
-    });
-    return response;
-}
-
 const init = async () => {
 
-    const document_parsed:HTMLElement = await catch_html();
-
+    benchmark_start = performance.now();
+    const page_url:string = 'https://nookipedia.com/wiki/Fish/New_Horizons';
+    const document_parsed:HTMLElement = await catch_html(page_url);
+    benchmark_end = performance.now();
+    console.log(print_log_message("Run 1: Capturando do HTML.", (benchmark_end - benchmark_start)));
 
     benchmark_start = performance.now();
     const content_wrapper:Element = document_parsed.querySelector('#mw-content-text .tabletop table tbody');
@@ -54,7 +33,7 @@ const init = async () => {
 
     benchmark_start = performance.now();
     const fish:iFish[] = names.map((value:string, index:number):iFish => {
-        const all_day = (times[index] === 'All day') ? true : false;
+        const all_day = (times[index] === 'All day');
         const local_file_name:string = `${to_slug(names[index])}.${get_extension(icons[index])}`;
         return {
             name: names[index],
